@@ -1,8 +1,10 @@
 import sys
 import getopt
-import numpy as np
-from PIL import Image
 import numpy
+import matplotlib.pyplot as plt
+from PIL import Image
+
+numpy.set_printoptions(threshold=numpy.nan)
 
 '''
 Loads an image from given file path
@@ -45,9 +47,30 @@ def main(argv):
 		print("USAGE: python3 main.py -i <input file>")
 		sys.exit()
 
+	# load image as array
+	print("Loading image...")
 	imgArr = load_image_as_array(inputFile)
 	print("Image loaded!")
-	print_image_array(imgArr)
+
+	# determine the correlation matrix
+	print("Finding correlation matix...")
+	i = 0
+	j = 0
+	maxInd = 512
+	cx = numpy.zeros((512,512))
+	numpy.reshape(imgArr, (512,512))
+	for i in range(0, maxInd):
+		for j in range(0, maxInd-1):
+			cx[i][j] = (int(imgArr[i][j]) * int(imgArr[i][j+1])) / 2
+
+	# get U, s, V
+	print("Doing decomposition...")
+	U, s, V = numpy.linalg.svd(cx)
+	print("Transform found!")
+
+	# plot U column vectors
+
+	# show plot
 
 if __name__ == "__main__":
 	main(sys.argv[1:])
