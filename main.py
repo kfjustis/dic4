@@ -68,9 +68,18 @@ def main(argv):
 	U, s, V = numpy.linalg.svd(cx)
 	print("Transform found!")
 
-	# plot U column vectors
+	# plot U column vectors with slicing
+	print("Graphing...")
+	i = 0
+	#x = U[:,i]
+	#y = U[i,:]
+	for i in range(0, 16):
+		plt.stem(U[i,:], linefmt='-', markerfmt='o')
+		plt.savefig('vec'+str(i)+'.png', bbox_inches='tight')
+		plt.clf()
 
 	# show plot
+	#plt.show()
 
 if __name__ == "__main__":
 	main(sys.argv[1:])
